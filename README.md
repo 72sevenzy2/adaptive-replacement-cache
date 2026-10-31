@@ -1,0 +1,2 @@
+# quick ARC cache introduction:
+An Adaptive Replacement Cache (ARC) is a self-tuning, high-performance page replacement algorithm developed at IBM Almaden Research Center. It improves upon traditional caching policies like Least Recently Used (LRU) by dynamically balancing between recency (how recently a page was accessed) and frequency (how often it is accessed) without requiring manual tuning or a priori knowledge of the workload.
