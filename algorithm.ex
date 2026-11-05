@@ -23,6 +23,38 @@ defmodule ARC.Algorithm do
         }
 
         {{:ok, value}, state}
+
+      true ->
+        {:miss, state}
     end
+  end
+
+  def put(state, key, value) do
+    cond do
+      match?({:ok, _}, LRU.get(state.t1, key)) ->
+        state = %{
+          state
+          | t1: LRU.delete(state.t1, key),
+            t2: LRU.put(state.t2, key, value)
+        }
+
+        state
+
+      match?({:ok, _}, LRU.get(state.t2, key)) ->
+        %{state | t2: LRU.put(state.t2, key, value)}
+
+      match?({:ok, _}, LRU.get(state.b1, key)) ->
+        nil
+    end
+  end
+
+  def delete(state, key) do
+    %{
+      state
+      | t1: LRU.delete(state.t1, key),
+        t2: LRU.delete(state.t2, key),
+        b1: LRU.delete(state.b1, key),
+        b2: LRU.delete(state.b2, key)
+    }
   end
 end
