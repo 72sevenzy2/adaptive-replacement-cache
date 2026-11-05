@@ -57,4 +57,24 @@ defmodule ARC.Algorithm do
         b2: LRU.delete(state.b2, key)
     }
   end
+
+  defp adjust_parameter_up(state, b1, b2) do
+    delta =
+      max(
+        div(LRU.size(b2), max(LRU.size(b1), 1)),
+        1
+      )
+
+    %{state | p: min(state.capacity, state.p + delta)}
+  end
+
+  defp adjust_parameter_down(state, b1, b2) do
+    delta =
+      max(
+        div(LRU.size(b1), max(LRU.size(b2), 1)),
+        1
+      )
+
+    %{state | p: max(0, state.p - delta)}
+  end
 end
